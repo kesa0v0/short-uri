@@ -13,8 +13,9 @@ def index():
 
 @app.route('/link/<link>')
 def redirection(link):
+    print("="*10+"INCOMING REDIRECTION REQUEST"+"="*10)
     print("receiving:", link)
-    data = db.select(link)
+    data = db.select(link)[0][1]
     print("redirect to:", data)
     if data:
         return redirect(data)
@@ -24,7 +25,7 @@ def redirection(link):
 
 @app.route('/convert', methods=['POST'])
 def convert():
-    print("="*10+"INCOMING MESSAGE"+"="*10)
+    print("="*10+"INCOMING CONVERT REQUEST"+"="*10)
     value = request.form['link']
     print("received link:", value)
     shorturl = "http://shorturl.kesa0v0.codes/link/" + generator.generate(value, db)

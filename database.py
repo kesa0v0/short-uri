@@ -10,9 +10,9 @@ class DB:
 
         print("is db already exist?", is_already_exist)
         if not is_already_exist:
-            cursor.execute('create table db(num int, URI text, SHORTURI text)')
+            cursor.execute('CREATE TABLE db(num int, URI text, SHORTURI text)')
 
-        self.size = len(cursor.execute('select * from db').fetchall())
+        self.size = len(cursor.execute('SELECT * FROM db').fetchall())
         print("current db size:", self.size)
 
         db.close()
@@ -22,7 +22,7 @@ class DB:
         db = sqlite3.connect("./uriDB.db")
         cursor = db.cursor()
 
-        cursor.execute(f'insert into db values({self.size}, ".", ".")')
+        cursor.execute('INSERT INTO db VALUES({}, ".", ".")'.format(self.size))
 
         db.commit()
         db.close()
@@ -32,8 +32,8 @@ class DB:
         db = sqlite3.connect("./uriDB.db")
         cursor = db.cursor()
 
-        cursor.execute(f'update db set URI=? where num=?', (uri, num))
-        cursor.execute(f'update db set SHORTURI=? where num=?', (shorturi, num))
+        cursor.execute('UPDATE db SET URI=? WHERE num=?', (uri, num))
+        cursor.execute('UPDATE db SET SHORTURI=? WHERE num=?', (shorturi, num))
 
         db.commit()
         db.close()
@@ -42,7 +42,7 @@ class DB:
         db = sqlite3.connect("./uriDB.db")
         cursor = db.cursor()
 
-        result = cursor.execute('select * from db where SHORTURI=?', (shorturi,)).fetchall()
+        result = cursor.execute('SELECT * FROM db WHERE SHORTURI=?', (shorturi,)).fetchall()
 
         db.close()
         return result
