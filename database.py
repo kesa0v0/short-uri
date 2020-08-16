@@ -13,7 +13,7 @@ class DB:
             cursor.execute('create table db(num int, URI text, SHORTURI text)')
 
         self.size = len(cursor.execute('select * from db').fetchall())
-        print(self.size)
+        print("current db size:", self.size)
 
         db.close()
 
