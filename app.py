@@ -24,6 +24,9 @@ def redirection(link):
 
 @app.route('/convert', methods=['POST'])
 def convert():
+    print("="*10+"INCOMING MESSAGE"+"="*10)
     value = request.form['link']
-    shorturl = generator.generate(value)
+    print("received link:", value)
+    shorturl = "http://shorturl.kesa0v0.codes/link/" + generator.generate(value, db)
+    print("shortened link:", shorturl)
     return shorturl
