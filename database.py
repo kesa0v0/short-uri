@@ -1,11 +1,6 @@
 import sqlite3
 from os.path import isfile
 
-class link:
-    def __init__(self):
-        self.uri = ""
-        self.short_uri = ""
-
 
 class DB:
     def __init__(self):
