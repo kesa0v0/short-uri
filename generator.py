@@ -19,3 +19,4 @@ def generate(uri, db):
     num = db.insert()
     shorturi = simplifier(num)
     db.update(num, uri, shorturi)
+    return shorturi

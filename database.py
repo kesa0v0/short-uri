@@ -4,30 +4,45 @@ from os.path import isfile
 
 class DB:
     def __init__(self):
-        self.is_already_exist = isfile("./uriDB.db")
-        self.db = sqlite3.connect("./uriDB.db")
-        self.cursor = self.db.cursor()
+        is_already_exist = isfile("./uriDB.db")
+        db = sqlite3.connect("./uriDB.db")
+        cursor = db.cursor()
 
-        print(self.is_already_exist)
-        if not self.is_already_exist:
-            self.cursor.execute('create table db(num int, URI text, SHORTURI text)')
+        print("is db already exist?", is_already_exist)
+        if not is_already_exist:
+            cursor.execute('create table db(num int, URI text, SHORTURI text)')
 
-        self.size = len(self.cursor.execute('select * from db').fetchall())
+        self.size = len(cursor.execute('select * from db').fetchall())
         print(self.size)
+
+        db.close()
 
     def insert(self):
         self.size += 1
-        self.cursor.execute(f'insert into db values({self.size}, ".", ".")')
-        self.db.commit()
+        db = sqlite3.connect("./uriDB.db")
+        cursor = db.cursor()
+
+        cursor.execute(f'insert into db values({self.size}, ".", ".")')
+
+        db.commit()
+        db.close()
         return self.size
 
     def update(self, num, uri, shorturi):
-        self.cursor.execute(f'update db set URI=? where num=?', (uri, num))
-        self.cursor.execute(f'update db set SHORTURI=? where num=?', (shorturi, num))
-        self.db.commit()
+        db = sqlite3.connect("./uriDB.db")
+        cursor = db.cursor()
+
+        cursor.execute(f'update db set URI=? where num=?', (uri, num))
+        cursor.execute(f'update db set SHORTURI=? where num=?', (shorturi, num))
+
+        db.commit()
+        db.close()
 
     def select(self, shorturi):
-        return self.cursor.execute('select * from db where SHORTURI=?', (shorturi,)).fetchall()
+        db = sqlite3.connect("./uriDB.db")
+        cursor = db.cursor()
 
-    def close(self):
-        self.db.close()
+        result = cursor.execute('select * from db where SHORTURI=?', (shorturi,)).fetchall()
+
+        db.close()
+        return result
