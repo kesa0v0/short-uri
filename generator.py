@@ -20,16 +20,3 @@ def generate(uri):
     num = db.insert()
     shorturi = simplifier(num)
     db.update(num, uri, shorturi)
-
-
-def get_request(res):
-    try:
-        data = db.select(res)
-    except:
-        pass
-
-
-if __name__ == "__main__":
-    uri = "https://somekindofsomething.lol"
-    generate(uri)
-    db.close()

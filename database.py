@@ -17,21 +17,22 @@ class DB:
         if not self.is_already_exist:
             self.cursor.execute('create table db(num int, URI text, SHORTURI text)')
 
-        self.size = self.size = len(self.cursor.fetchall())
+        self.size = len(self.cursor.execute('select * from db').fetchall())
         print(self.size)
 
     def insert(self):
-        self.cursor.execute(f'insert into db values({self.size+1}, ".", ".")')
+        self.size += 1
+        self.cursor.execute(f'insert into db values({self.size}, ".", ".")')
         self.db.commit()
-        return self.size+1
+        return self.size
 
     def update(self, num, uri, shorturi):
         self.cursor.execute(f'update db set URI=? where num=?', (uri, num))
         self.cursor.execute(f'update db set SHORTURI=? where num=?', (shorturi, num))
         self.db.commit()
 
-    def select(self, short_uri):
-        pass
+    def select(self, shorturi):
+        return self.cursor.execute('select * from db where SHORTURI=?', (shorturi,)).fetchall()
 
     def close(self):
         self.db.close()
