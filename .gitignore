@@ -154,4 +154,5 @@ fabric.properties
 # pyinstaller
 ./build/
 ./dist/
-sample/
+
+uriDB.db
